@@ -1,4 +1,4 @@
-Manacher algorithm, complexity O(n)
+//Manacher algorithm, complexity O(n)
 int n; //length of the srtring
 int d1[n], d2[n]; //d1 longest odd palindrome with center i, d2 longest even palindrome with center i
 for (int i = 0, l = 0, r = -1; i < n; i++) { //odd
