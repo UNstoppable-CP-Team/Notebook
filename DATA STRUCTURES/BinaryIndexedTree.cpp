@@ -18,7 +18,3 @@ void update(int k, int x){
 int query_range(int l, int r){
 	return query(r)-query(l-1);
 }
-void update_range(int l, int r, int x){
-	update(r+1,-x);
-	update(l,x);
-}
