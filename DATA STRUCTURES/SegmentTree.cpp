@@ -3,7 +3,7 @@ int seg[2*n + 100], arr[n];
 void add(int x, int k){ //add can be any operation min, max ...
 	k+=n;
 	seg[k] = x;
-	for(k/=2; k>=1; k/=2) seg[k] = seg[2*k] + seg[2*k+1];
+	for(k>>=1; k>=1; k>>=1) seg[k] = seg[(k<<2)] + seg[(k<<1|1)];
 }
 int sum(int a, int b){ //Just calculates the result in the given range
 	a+=n, b+=n;
@@ -11,7 +11,7 @@ int sum(int a, int b){ //Just calculates the result in the given range
 	while(a<=b){
 		if(a&1) ans += seg[a++];
 		if(!(b&1)) ans +=seg[b--];
-		a/=2, b/=2;
+		a>>=1, b>>=1;
 	}
 	return ans;
 }
