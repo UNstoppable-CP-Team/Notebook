@@ -6,6 +6,7 @@ set shiftwidth=4
 set autoindent
 set smartindent
 set cindent
+set pastetoggle=<F3>
 noremap <F5> :w <bar> !g++ -o -std=c++14 -static -Wall -Who-unused-result -02 %:r.cpp -o %:r<CR>
 noremap <F6> :%y+<CR>
 noremap <F8> :<C-U> !./%:r <in
