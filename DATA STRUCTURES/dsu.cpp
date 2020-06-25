@@ -1,5 +1,5 @@
 int N;
-int f[N], l[N]; //F: father array, l: length(size) array
+int f[N], len[N]; //F: father array, l: length(size) array
 int find(int n){return f[n] = f[n] == n ? n : find(f[n]);}
 void merge(int a, int b){
 	a =  find(a), b = find(b);
