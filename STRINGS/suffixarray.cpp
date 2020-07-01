@@ -17,10 +17,11 @@ void countsort(vector<int>& p, vector<int>& c){
 	}
 	p = newp;
 }
-vector <int> suffixarray(string& s){
+void suffixarray(vector<int>& p, vector <int>& c, string& s){
 	s += '$';
 	int n = s.size();
-	vector <int> p(n), c(n);
+	p.assign(n, 0);
+	c.assign(n, 0);
 	vector <pair<char, int>> a(n); 
 	for (int i = 0; i < n; ++i) {
 		a[i] = {s[i], i};
@@ -49,5 +50,4 @@ vector <int> suffixarray(string& s){
 		}
 		c = newc;
 	}
-	return p;
 }
