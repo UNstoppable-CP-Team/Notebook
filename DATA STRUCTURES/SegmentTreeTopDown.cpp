@@ -43,9 +43,9 @@ int querie(int v, int tl, int tr, int l, int r, int pos) { //Beware of this one,
 }
 int get(int v, int tl, int tr, int pos) { //Single value querie
 	if(tl == tr) return seg[v];
-	int tm = (tl + tr)  >> 1;
-	if(pos <= tm) return seg[v] + get(v << 1, tl, tm, pos);
-	return seg[v] + get(v << 1 | 1, tm + 1, tr, pos);
+	int tm = (tl + tr) / 2;
+	if(pos <= tm) return seg[v] + get(2 * v, tl, tm, pos);
+	return seg[v] + get(2 * v + 1, tm + 1, tr, pos);
 }
 ///Using lazy propagation to set a[l, ..., r] = val;
 void push(int& v) {
@@ -69,7 +69,7 @@ void update(int v, int tl, int tr, int l, int r, int val) {
 int get(int v, int tl, int tr, int pos) {
 	if(tl == tr) return seg[v];
 	push(v);
-	int tm = (tl + tr)  >> 1;
-	if(pos <= tm) return get(v << 1, tl, tm, pos);
-	return  get(v << 1 | 1, tm + 1, tr, pos);
+	int tm = (tl + tr) / 2;
+	if(pos <= tm) return get(2 * v, tl, tm, pos);
+	return  get(2 * v + 1, tm + 1, tr, pos);
 }
