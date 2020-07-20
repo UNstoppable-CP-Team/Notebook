@@ -26,11 +26,7 @@ int querie(int v, int tl, int tr, int l, int r, int pos) {
 //Range update and queries
 void update(int v, int tl, int tr, int l, int r, int val) {
 	if(l > r) return;
-	if(tl == l && tr == r) {
-		seg[v] = val;
-		marked[v] = 1;
-	}
-	push(v);
+	if(tl == l && tr == r) seg[v] += val;
 	int tm = (tl + tr) / 2;
 	update(2 * v, tl, tm, l, min(tm, r), val);
 	update(2 * v + 1, tm + 1, tr, max(l, tm + 1), r, val);
