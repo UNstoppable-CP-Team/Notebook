@@ -1,4 +1,5 @@
 //Implementation required for lazy propagation and other applications
+//Comlexity of queries, update and get (in every form) O(lg n)
 const int maxn, NEUTER = 0; //Max number of array elements and neutral value of function f
 int seg[4 * maxn], marked[4 * maxn]; //Segmentre itself, and auxiliar array for propagation
 int f(int a, int b) {
