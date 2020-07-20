@@ -35,7 +35,7 @@ int querie(int v, int tl, int tr, int l, int r, int pos) { //Beware of this one,
 	if(l > r) return NEUTER;
 	if(tl == l && tr == r) return seg[v];
 	int tm = (tl + tr) / 2;
-	return seg[v] + f( querie(2 * v, tl, tm, l, min(tm, r), pos), querie(2 * v + 1, tm + 1, tr, max(l, tm + 1), r));
+	return seg[v] + querie(2 * v, tl, tm, l, min(tm, r), pos) + querie(2 * v + 1, tm + 1, tr, max(l, tm + 1), r);
 }
 int get(int v, int tl, int tr, int pos) { //Single value querie
 	if(tl == tr) return seg[v];
