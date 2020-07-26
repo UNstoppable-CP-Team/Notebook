@@ -1,5 +1,4 @@
-  
-/*
+  /*
   oo =  infinite distance
   n = number of nodes
   adj = graph saved in an adjacency list
