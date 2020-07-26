@@ -1,11 +1,12 @@
 /*	Graph = network flow
 	oo = infinite number
+	maxn = maximum number of nodes
  	Capacity is [maxn][maxn]
 	Call ans = maxflow(s, t) int the main
 */
 //Complexity O(n*m*m)
 int bfs(int s, int t, vector<int>& parent) {
-	parent.assign(last + 1, -1);
+	parent.assign(maxn, -1);
 	parent[s] = -2;
 	queue<pii> q;
 	q.push({s, oo});
