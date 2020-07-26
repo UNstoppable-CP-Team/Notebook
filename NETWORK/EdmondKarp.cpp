@@ -1,7 +1,9 @@
-//Graph = network flow
-//Capacity is [maxn][maxn]
+/*	Graph = network flow
+	oo = infinite number
+ 	Capacity is [maxn][maxn]
+	Call ans = maxflow(s, t) int the main
+*/
 //Complexity O(n*m*m)
-//Call ans = maxflow(s, t) int the main
 int bfs(int s, int t, vector<int>& parent) {
 	parent.assign(last + 1, -1);
 	parent[s] = -2;
