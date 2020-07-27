@@ -1,6 +1,6 @@
 /*
   oo = infinity value
-  k = if flow >= k stop the algorithm (oo usually)
+  k = Given K find the the minimum cost of a flow = k
   n = number of nodes in the residual network
   edges = graph saved in edges list
   cost and capacity global arrays
