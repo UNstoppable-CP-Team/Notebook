@@ -58,5 +58,6 @@ int mincostflow(int n, vector<Edge>& edges, int K, int s, int t) {
 			cur = parent[cur];
 		}
 	}
+	if(flow < K) return -1;
 	return cost;
 }
