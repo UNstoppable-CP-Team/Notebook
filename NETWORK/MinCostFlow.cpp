@@ -1,6 +1,7 @@
 /*
   oo = infinity value
   k = Given K find the the minimum cost of a flow = k
+      for maximum flow - minimum cost use k = oo, and comment line "if (flow < k) return -1; "
   n = number of nodes in the residual network
   edges = graph saved in edges list
   cost and capacity global arrays
