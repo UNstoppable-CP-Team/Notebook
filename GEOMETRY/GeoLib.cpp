@@ -18,7 +18,7 @@ double angle(pt a){
 	complex<T> pnt(a.x,b.y);
 	return arg(pnt);//randians
 }
-double area(vector<pt> p){
+double area(vector<pt>& p){
 	T ans = 0;
 	int n = p.size();
 	for(int i=0; i<n; i++)
