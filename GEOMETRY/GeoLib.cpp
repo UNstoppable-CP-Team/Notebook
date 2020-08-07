@@ -7,15 +7,16 @@ struct pt {
 	pt operator / (T d) { return {x / d, y / d};}
 	bool operator == (pt p) { return x == p.x && y == p.y;}
 	bool operator != (pt p) {return x != p.x || y != p.y;}
-	T dot (pt p) { return x * p.x + y * p.y;}
-	T cross (pt p) { return x * p.y - y * p.x;}
-
 };
 T dot(pt a, pt b){
 	return a.x*b.x+a.y*b.y;
 }
 T cross(pt a, pt b){
 	return a.x*b.y-a.y*b.x;
+}
+double angle(pt a){
+	complex<T> pnt(a.x,b.y);
+	return arg(pnt);//randians
 }
 double area(vector<pt> p){
 	T ans = 0;
