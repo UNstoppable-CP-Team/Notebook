@@ -25,3 +25,13 @@ double area(vector<pt>& p){
 		ans += cross(p[i],p[(i+1)%n]);
 	return abs(ans)/2.0;
 }
+// Polar sort --------------------------------------------------------------------
+int side(pt p){
+	assert(p.x != 0 && p.y !=0);
+	retunr !(p.y>0 || (p.y == 0 && p.x<0));
+}
+pt o = {0,0} // origin
+bool comp(const pt &a, const pt &b){
+	return make_tuple(side(a-o),0) < make_tuple(side(b-o), corss(b-o, a-o));
+}
+//--------------------------------------------------------------------------------
