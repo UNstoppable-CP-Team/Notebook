@@ -1,4 +1,5 @@
-vector<int> z_function(string s) {
+//Z algorithm, complexity O(n);
+vector<int> z_function(string s) { //return vector with z values
     int n = (int) s.length();
     vector<int> z(n);
     for (int i = 1, l = 0, r = 0; i < n; ++i) {
@@ -11,3 +12,4 @@ vector<int> z_function(string s) {
     }
     return z;
 }
+//Taken from: https://cp-algorithms.com/string/z-function.html
