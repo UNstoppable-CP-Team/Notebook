@@ -1,11 +1,10 @@
 /*
-*   T = flow data type (sometimes it can be ll or int)
 *   edge: edge structure where
-*         v = from, cap = capacity, inv = id of the inverse edge, flow = current flow on the edge.
+*         v = from, inv = id of the inverse edge, cap = capacity, flow = current flow on the edge.
 *
 *   Dinic: n = number of nodes, s = source node, t = sink node;
-*          lvl = vector level of nodes (level network)
-*          g = network flow graph
+*          level = vector level of nodes (level network)
+*          graph = network flow graph
 *          call maxflow with oo = the require flow (infinite for maximum flow or a value if you want a flow <= x)
 *
 */
