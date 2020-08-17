@@ -1,4 +1,5 @@
 /*
+*   T = flow data type (sometimes it can be ll or int)
 *   edge: edge structure where
 *         v = from, cap = capacity, inv = id of the inverse edge, flow = current flow on the edge.
 *
@@ -9,61 +10,60 @@
 *
 */
 //Complexity O (n * n * m); where m = number of edges
+typedef int T;
 struct Edge {
-    int v, cap, inv, flow;
-    edge() {}
-    edge(int v, int cap, int inv, int flow) : v(v), cap(cap), inv(inv),
-                                              flow(flow) {}
+	int v, inv; 
+	T cap, flow;
+	Edge (int v, int inv, T cap, T flow) : v(v), inv(inv), cap(cap), flow(flow) {}
 };
 struct Dinic {
-    int n, s, t;
-    vector<int> lvl;
-    vector<vector<edge> > g;
-    Dinic(int n) : n(n), lvl(n), g(n) {}
-    void add_edge(int u, int v, int c) {
-        g[u].push_back(edge(v, c, g[v].size(), 0));
-        g[v].push_back(edge(u, 0, g[u].size()-1, c));
-    }
-    bool bfs() {
-        fill(lvl.begin(), lvl.end(), -1);
-        queue<int> q; 
-        q.push(s);
-        lvl[s] = 0;
-        while(q.size()) {
-            int u = q.front(); q.pop();
-            for(int i = 0; i < g[u].size(); i++) {
-                edge &e = g[u][i];
-                if(e.cap > 0 && lvl[e.v] == -1) {
-                    lvl[e.v] = lvl[u]+1;
-                    q.push(e.v);
-                }
-            }
-        }
-        return lvl[t] != -1;
-    }
-    int dfs(int u, int nf) {
-        if(u == t) return nf;
-        int res = 0;
-        for(int i = 0; i < g[u].size(); i++) {
-            edge &e = g[u][i];
-            if(e.cap > 0 && lvl[e.v] == lvl[u]+1) {
-                int tf = dfs(e.v, min(nf, e.cap));
-                res += tf;
-                nf -= tf;
-                e.cap -= tf;
-                e.flow += tf;
-                g[e.v][e.inv].cap += tf;
-                g[e.v][e.inv].flow -= tf;
-                if(nf == 0) return res;
-            }
-        }
-        if (!res) lvl[u] = -1;
-        return res;
-    }
-    int max_flow(int so, int si, int res = 0) {
-        s = so; t = si;
-        while(bfs())
-            res += dfs(s, oo);
-        return res;
-    }
+	int n, s, t;
+	vector <int> lvl;
+	vector < vector <Edge> > g;
+	Dinic(int n, int s, int t) : n(n), s(s), t(t), lvl(n), g(n) {}
+	void addedge(int u, int v, T cap) {
+		g[u].push_back(Edge(v, g[v].size(), cap, 0));
+		g[v].push_back(Edge(u, g[u].size() - 1, 0, cap));
+	}
+	bool bfs() {
+		fill(lvl.begin(), lvl.end(), -1);
+		queue <int> q;
+		q.push(s);
+		lvl[s] = 0;
+		while(!q.empty()) {
+			int u = q.front(); q.pop();
+			for (int i = 0; i < g[u].size(); ++i) {
+				Edge &e = g[u][i];
+				if(e.cap > 0 && lvl[e.v] == -1) {
+					lvl[e.v] = lvl[u] + 1;
+					q.push(e.v);
+				}
+			}
+		}
+		return lvl[t] != -1;
+	}
+	T dfs(int u, T newflow) {
+		if (u == t) return newflow;
+		T ans = 0;
+		for (int i = 0; i < g[u].size(); ++i) {
+			Edge &e = g[u][i];
+			if( e.cap <= 0 && lvl[e.v] != lvl[u] + 1) continue;
+			T f = dfs(e.v, min(newflow, e.cap));
+			if (f == 0) continue;
+			ans += f;
+			newflow -= f;
+			e.cap -= f, e.flow += f;
+			g[e.v][e.inv].cap += f, g[e.v][e.inv].flow -= f;
+			if(newflow == 0) return ans;
+		}
+		if(!ans) lvl[u] = -1;
+		return ans;
+	}
+	T flow() {
+		T f = 0;
+		while(bfs()) {
+			f += dfs(s, oo);
+		}
+		return f;
+	}
 };
