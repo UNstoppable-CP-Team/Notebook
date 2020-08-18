@@ -17,13 +17,10 @@ struct Dinic {
 	int n, s, t;
 	vector <int> level;
 	vector < vector <Edge> > graph;
-	Dinic(int n, int s, int t) : n(n), s(s), t(t) {
-		graph.assign(n, vector <Edge> ());
-		level.resize(n);
-	}
+	Dinic(int n, int s, int t) : n(n), s(s), t(t), level(n), graph(n) {}
 	void addedge(int u, int v, int cap) {
 		graph[u].push_back(Edge(v, graph[v].size(), cap, 0));
-		graph[v].push_back(Edge(u, graph[u].size() - 1, 0, 0));
+		graph[v].push_back(Edge(u, graph[u].size() - 1, 0, cap));
 	}
 	bool bfs() {
 		fill(level.begin(), level.end(), -1);
@@ -34,7 +31,7 @@ struct Dinic {
 			int u = q.front(); q.pop();
 			for(int i = 0; i < graph[u].size(); ++i) {
 				Edge &e = graph[u][i];
-				if(e.flow < e.cap && level[e.v] == -1) {
+				if(e.cap > 0 && level[e.v] == -1) {
 					level[e.v] = level[u] + 1;
 					q.push(e.v);
 				}
@@ -47,20 +44,22 @@ struct Dinic {
 		int ans = 0;
 		for(int i = 0; i < graph[u].size(); ++i) {
 			Edge &e = graph[u][i];
-			if(e.cap <= e.flow || level[e.v] != level[u] + 1) continue;
-			int newflow = dfs(e.v, min(pushed, e.cap - e.flow));
-			if(newflow <= 0) continue;
-			e.flow += newflow;
-			graph[e.v][e.inv].flow -= newflow;
-			return newflow;
+			if(e.cap > 0 && level[e.v] == level[u] + 1) {
+				int newflow = dfs(e.v, min(pushed, e.cap));
+				ans += newflow; 
+				pushed -= newflow; 
+				e.cap -= newflow, e.flow += newflow;
+				graph[e.v][e.inv].cap += newflow;
+				graph[e.v][e.inv].flow -= newflow;
+				if(pushed == 0) return ans;
+			}
 		}
-		return 0;
+		if(!ans) level[u] = -1;
+		return ans;
 	}
 	int maxflow() {
 		int ans = 0;
-		while(bfs()) {
-			while(int newflow = dfs(s, oo)) ans += newflow;
-		}
+		while(bfs()) ans += dfs(s, oo);
 		return ans;
 	}
 };
