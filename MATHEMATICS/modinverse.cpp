@@ -16,7 +16,7 @@ void findinv(){
  * the modular inverse of a is x
  */
 int x, y;
-int g = extended_euclidean(a, m, x, y);
+int g = gcdExtended(a, m, x, y);
 if (g != 1) {
     cout << "No solution!";
 }
