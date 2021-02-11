@@ -1,4 +1,5 @@
-int LOG2 = 20;
+const int LOG2 = 20;
+const int N = 1e5+10;
 int depth[N];
 int dp[N][LOG2];
 void dfs(int u, int p=-1, int d){
