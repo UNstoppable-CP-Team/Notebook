@@ -5,18 +5,19 @@
 	Call ans = maxflow(s, t) int the main
 */
 //Complexity O(n*m*m)
-struct  Edkarp {
+template <class T> struct Edkarp {
 	int n, s, t;
-	vector< vector<int> > graph, capacity;
-	Edkarp(int n, int s, int t) : n(n), s(s), t(t) {
+	vector< vector<int> > graph; 
+	vector <vector <T> > capacity;
+	Edkarp(int n) : n(n) {
 		graph.resize(n);
-		capacity.assign(n, vector<int> (n, 0));
+		capacity.assign(n, vector<T> (n, 0));
 	}
-	void addedge(int u, int v, int c) {
+	void addedge(int u, int v, T c) {
 		graph[u].push_back(v), graph[v].push_back(u);
 		capacity[u][v] = c, capacity[v][u] = 0;
 	}
-	int bfs(vector<int>& parent) {
+	T bfs(vector<int>& parent) {
 		parent.assign(n, -1);
 		parent[s] = -2;
 		queue<pii> q;
@@ -27,7 +28,7 @@ struct  Edkarp {
 			for(int v : graph[u]) {
 				if(parent[v] == -1 && capacity[u][v]) {
 					parent[v] = u;
-					int newflow = min(flow, capacity[u][v]);
+					T newflow = min(flow, capacity[u][v]);
 					if(v == t) return newflow;
 					q.push({v, newflow});
 				}
@@ -35,8 +36,9 @@ struct  Edkarp {
 		}
 		return 0;
 	}
-	int maxflow() {
-		int flow = 0, newflow;
+	T maxflow(int u, int v) {
+		s = u, t = v;
+		T flow = 0, newflow;
 		vector <int> parent;
 		while(newflow = bfs(parent)) {
 			flow += newflow;
