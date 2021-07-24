@@ -1,23 +1,6 @@
 int op(int a, int b) { return a ^ b; } // sum, max, min, ...
 struct HLD {
-	struct Stree {
-		int n; vector <int> tree;
-		void update(int k, int x) {
-			k += n;
-			tree[k] = x;
-			for (k >>= 1; k; k >>= 1) tree[k] = op(tree[k << 1], tree[k << 1 | 1]);
-		}
-		int query(int a, int b) {
-			a += n, b += n;
-			int ans = 0;
-			while (a <= b) {
-				if (a & 1) ans = op(tree[a++], ans);
-				if (!(b & 1)) ans = op(tree[b--], ans);
-				a >>= 1, b >>= 1;
-			}
-			return ans;
-		}
-	} seg;
+	//Segment tree seg;
 	vector <vector<int>>  tree;
 	vector <int> par, depth, heavy, head, pos;
 	int cp, n;
