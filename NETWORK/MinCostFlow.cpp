@@ -7,64 +7,71 @@
   cost and capacity global arrays
 */
 //Complexity O(n*n*m*m)
-struct Edge{
-	int from, to, cap, cost;
-};
-struct MCF{
-	int n, s, t;
-	vector< vector <int> > graph, capacity, cost;
-	MCF (int n, int s, int t) : n(n), s(s), t(t), graph(n) {
-		capacity.assign(n, vector <int> (n));
-		cost.assign(n, vector <int> (n));
+template<class T> struct MCF{
+	struct Edge {
+	  int to, rev; T f, cap, cost;
+	  Edge(int to, int rev, T cap, T cost, T f = 0) : to(to), rev(rev), cap(cap), cost(cost), f(f) {}
+	};
+	int n;
+	vector<vector<Edge>> g;
+	void addedge(int s, int t, T cap, T cost){
+		g[s].push_back(Edge(t, g[t].size() , cap, cost));
+		g[t].push_back(Edge(s, g[s].size() -1, 0, -cost));
 	}
-	void addedge(int u, int v, int cap, int c) {
-		graph[u].push_back(v), graph[v].push_back(u);
-		capacity[u][v] = cap, capacity[v][u] = 0;
-		cost[u][v] = c, cost[v][u] = -c;
-	}
-	void spfa(int s, int n, vector<int>& distance, vector<int>& parent) {
-		distance.assign(n, oo);
-		parent.assign(n, -1);
-		vector<bool> inq(n, 0);
-		distance[s] = 0, inq[s] = 1;
+	MCF (int n) :n(n) { g.resize(n); }
+	void spfa(int v0, vector<T>& d, vector<int>& p) {
+		d.assign(n, oo); d[v0] = 0;
+		vector<bool> inq(n,0);
 		queue<int> q;
-		q.push(s);
-		while(!q.empty()) {
-			int u = q.front(); q.pop();
-			inq[u] = 0;
-			for(int v : graph[u]) {
-				if(capacity[u][v] > 0 && distance[v] > distance[u] + cost[u][v]) {
-				distance[v] = distance[u] + cost[u][v];
-					parent[v] = u;
-					if(!inq[v]) {
-						inq[v] = 1;
-						q.push(v);
+		q.push(v0);
+		p.assign(n,-1);
+		while (!q.empty()) {
+		  int u = q.front();
+		  q.pop();
+		  inq[u] = 0;
+			for(int i= 0; i< g[u].size(); ++i){
+				Edge v = g[u][i];
+				if (v.cap - v.f > 0 && d[v.to] > d[u] + v.cost ) {
+					d[v.to] = d[u] + v.cost;
+					p[v.to] = v.rev;
+					if (!inq[v.to]) {
+						inq[v.to] = 1;
+						q.push(v.to);
 					}
 				}
 			}
 		}
 	}
-	int mincostflow(int K) {
-		int flow = 0, cost = 0;
-		vector <int> distance, parent;
-		while(flow < K) {
-			spfa(s, n, distance, parent);
-			if(distance[t] == oo) break;
-			int f = K - flow, cur = t;
+	T mincostflow(ll K, int s, int t) {
+		T flow = 0, cost = 0;
+		vector<int> p;
+		vector<ll> d;
+		while (flow < K) {
+			spfa(s, d, p);
+			if (d[t] == oo) break;
+			//find max flow on that path
+			T f = K - flow;
+			int cur = t;
 			while (cur != s) {
-				f = min(f, capacity[parent[cur]][cur]);
-				cur = parent[cur];
+				int u = g[cur][p[cur]].to;
+				int rev = g[cur][p[cur]].rev;
+				T c = g[u][rev].cap - g[u][rev].f;
+				f = min(f, c);
+				cur = u;
 			}
+			//apply flow
 			flow += f;
-			cost += f * distance[t];
+			cost += f * d[t];
 			cur = t;
-			while(cur != s) {
-				capacity[parent[cur]][cur] -= f;
-				capacity[cur][parent[cur]] += f;
-				cur = parent[cur];
+			while (cur != s) {
+				int rev = g[cur][p[cur]].rev;
+				int u = g[cur][p[cur]].to;
+				g[u][rev].f += f;
+				g[cur][p[cur]].f -= f;
+				cur = u;
 			}
 		}
-		if(flow < K) return -1;
+		if(flow< K) return -1;
 		return cost;
 	}
 };
