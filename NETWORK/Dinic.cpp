@@ -9,16 +9,16 @@
 *
 */
 //Complexity O (n * n * m); where m = number of edges
-struct Edge {
-	int v, inv, cap, flow;
-	Edge(int v, int inv, int cap, int flow) : v(v), inv(inv), cap(cap), flow(flow) {}
-};
-struct Dinic {
+template <class T> struct Dinic {
+	struct Edge {
+		int v, inv; T cap, flow;
+		Edge(int v, int inv, T cap, T flow) : v(v), inv(inv), cap(cap), flow(flow) {}
+	};
 	int n, s, t;
 	vector <int> level;
 	vector < vector <Edge> > graph;
-	Dinic(int n, int s, int t) : n(n), s(s), t(t), level(n), graph(n) {}
-	void addedge(int u, int v, int cap) {
+	Dinic(int n) : n(n), level(n), graph(n) {}
+	void addedge(int u, int v, T cap) {
 		graph[u].push_back(Edge(v, graph[v].size(), cap, 0));
 		graph[v].push_back(Edge(u, graph[u].size() - 1, 0, cap));
 	}
@@ -39,13 +39,13 @@ struct Dinic {
 		}
 		return level[t] != -1;
 	}
-	int dfs(int u, int pushed) {
+	T dfs(int u, T pushed) {
 		if(u == t) return pushed;
-		int ans = 0;
+		T ans = 0;
 		for(int i = 0; i < graph[u].size(); ++i) {
 			Edge &e = graph[u][i];
 			if(e.cap > 0 && level[e.v] == level[u] + 1) {
-				int newflow = dfs(e.v, min(pushed, e.cap));
+				T newflow = dfs(e.v, min(pushed, e.cap));
 				ans += newflow; 
 				pushed -= newflow; 
 				e.cap -= newflow, e.flow += newflow;
@@ -57,8 +57,8 @@ struct Dinic {
 		if(!ans) level[u] = -1;
 		return ans;
 	}
-	int maxflow() {
-		int ans = 0;
+	T maxflow(int u, int v) {
+		T ans = 0; s = u, t = v;
 		while(bfs()) ans += dfs(s, oo);
 		return ans;
 	}
