@@ -12,8 +12,7 @@ template <class T> struct Stree {
 	T merge(T a, T b) { return 0; } // set merge operation
 	void propagate(int u, int tl, int tr) {
 		if (!lazy[u]) return;
-		if (tl != tr) {
-			//lazy operation
+		if (tl != tr) { //seg lazy operation
 		}
 		lazy[u] = 0;
 	}
