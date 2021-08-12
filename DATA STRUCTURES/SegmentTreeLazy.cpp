@@ -1,5 +1,6 @@
 template <class T> struct Stree {
-	int n; T neut = {0, -1}; //set neuter value
+	T neut = 0; //set neuter value
+	int n; 
 	vector <T> tree; 
 	vector <bool> lazy;
 	Stree (int n) : n(n) {
