@@ -18,8 +18,7 @@ template <class T> struct Stree {
 	}
 	void update(int u, int tl, int tr, int l, int r, T val) {
 		if (l > r) return;
-		if (tl == l && tr == r) {
-			//tree[u] = ;
+		if (tl == l && tr == r) {//set update operation
 			lazy[u] = 1;
 		} else {
 			propagate(u, tl, tr);
