@@ -1,20 +1,24 @@
-const ll mod = 1e9 + 7;
-ll add(ll a, ll b) { return a + b >= mod ? a + b - mod : a + b; }
-ll sub(ll a, ll b) { return a >= b ? a - b : a - b + mod; }
-ll mul(ll a, ll b) { return a * b % mod; }
-struct Hash{
-	vector <ll> h, pw;
-	int n; ll p;
-	Hash(string &s, ll p) : p(p){
+template<class T> struct Hash {
+	T MOD, p; 
+	int n, neut = 'a'; //change to neuter value
+	vector <T> h, pw;
+	Hash (string &s, T MOD, T p) : MOD(MOD), p(p) { //change string for vector in case of needed
 		n = s.size();
-		h.assign(n, 0);
-		pw.assign(n, 0);
-		ll b = 1;
-		for (int i = n - 1; i >= 0; --i, b = mul(b, p)) {
-			h[i] = mul(s[i] - 'a', b);
-			if (i + 1 < n) h[i] = add(h[i], h[i + 1]);
-			pw[n - i - 1] = b;
+		h.resize(n);
+		pw.resize(n);
+		T b = 1;
+		for (int i = 0; i < n; ++i) {
+			h[i] = mul(s[i] - neut, b);
+			if (i) h[i] = add(h[i], h[i - 1]);
+			pw[i] = b;
+			b  = mul(b, p);
 		}
 	}
-	ll query(int l, int r) { return mul(pw[l], sub(h[l], r + 1 < n ? h[r + 1] : 0)); }
+	T add(T a, T b) { return a + b >= MOD ? a + b - MOD : a + b; }
+	T sub(T a, T b) { return a >= b ? a - b : a - b + MOD; }
+	T mul(T a, T b) { return 1ll * a * b % MOD; }
+	T query(int l, int r, int x) { 
+		//use x for shifting when comparing, in case of no need use x = 0
+		return mul(pw[x], sub(h[r], l ? h[l - 1] : 0)); 
+	}
 };
