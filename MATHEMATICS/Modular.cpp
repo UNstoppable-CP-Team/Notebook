@@ -1,5 +1,4 @@
-const int mod = 1e9 + 7;
-template <int MOD=mod> struct Modular {
+template <int MOD> struct Modular {
 	int value;
 	static const int MOD_value = MOD;
 	Modular(long long v = 0) { value = v % MOD; if (value < 0) value += MOD;}
@@ -21,4 +20,4 @@ template <int MOD=mod> struct Modular {
 	friend std::ostream& operator<<(std::ostream& os, Modular const& a) {return os << a.value;}
 	friend bool operator==(Modular const& a, Modular const& b) {return a.value == b.value;}
 	friend bool operator!=(Modular const& a, Modular const& b) {return a.value != b.value;}
-}; typedef Modular<> mi;
+}; typedef Modular<(int)1e9 + 7> Mint;
