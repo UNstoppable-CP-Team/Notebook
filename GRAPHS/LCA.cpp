@@ -2,8 +2,8 @@ const int LOG2 = 20;
 const int N = 1e5+10;
 int depth[N];
 int dp[N][LOG2];
-void dfs(int u, int p=-1, int d){
-	int depth[u] = d;
+void dfs(int u, int p, int d){
+	depth[u] = d;
 	dp[u][0] = p;
 	for(int i=1; i<LOG2; i++)
 		dp[u][i] = dp[dp[u][i-1]][i-1];
