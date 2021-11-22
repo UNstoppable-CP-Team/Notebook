@@ -1,38 +1,44 @@
-struct SufAut{
-	const static int maxn = 2e5 + 10; //Maximum string lenght
-	struct Node {
+struct SuffixAutomaton {
+	struct State {
 		int len, link;
-		map <char, int> next;
+		map<char, int> next;
 	};
-	int sz, last;
-	Node aut[2 * maxn]; //Maximum number of states 2 * n - 1
-	SufAut() : last(0), sz(1) { aut[0]. len = 0, aut[0].link = -1;}
-	void add(string &s) {
-		for (char c : s) {
-			int cur = sz++;
-			aut[cur].len = aut[last].len + 1;
-			int p = last;
-			while (p != -1 && !aut[p].next.count(c)) {
-				aut[p].next[c] = cur;
-				p = aut[p].link;
-			}
-			if (p == -1) aut[cur].link = 0;
-			else {
-				int q = aut[p].next[c];
-				if (aut[p].len + 1 == aut[q].len) aut[cur].link = q;
-				else {
-					int clone = sz++;
-					aut[clone].len = aut[p].len + 1;
-					aut[clone].next = aut[q].next;
-					aut[clone].link = aut[q].link;
-					while (p != -1 && aut[p].next[c] == q) {
-						aut[p].next[c] = clone;
-						p = aut[p].link;
-					}
-					aut[p].link = aut[cur].link = clone;
-				}
-			}
-			last = cur;
+	vector <State> st;
+	vector <int> dp;
+	int sz, last, n; 
+	SuffixAutomaton(string &s) {
+		sz = 1; last = 0; n = s.size();
+		st.resize(2 * n);
+		dp.resize(2 * n);
+		st[0].len = 0, st[0].link = -1; 
+		for (auto &c : s) add(c); //comment in case you don't want to add the whole string
+	}
+	void add (char c) {
+		int cur = sz++;
+		st[cur].len = st[last].len + 1;
+		int p = last;
+		while (p != -1 && !st[p].next.count(c)) {
+			st[p].next[c] = cur;
+			p = st[p].link;
 		}
+		if (p == -1) {
+			st[cur].link = 0;
+		} else {
+			int q = st[p].next[c];
+			if (st[p].len + 1 == st[q].len) {
+				st[cur].link = q;
+			} else {
+				int clone = sz++;
+				st[clone].len = st[p].len + 1;
+				st[clone].next = st[q].next;
+				st[clone].link = st[q].link;
+				while (p != -1 && st[p].next[c] == q) {
+					st[p].next[c] = clone;
+					p = st[p].link;
+				}
+				st[q].link = st[cur].link = clone;
+			}
+		}
+		last = cur;
 	}
 };
