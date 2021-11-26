@@ -4,12 +4,10 @@ struct SuffixAutomaton {
 		map<char, int> next;
 	};
 	vector <State> st;
-	vector <int> dp;
 	int sz, last, n; 
 	SuffixAutomaton(string &s) {
 		sz = 1; last = 0; n = s.size();
 		st.resize(2 * n);
-		dp.resize(2 * n);
 		st[0].len = 0, st[0].link = -1; 
 		for (auto &c : s) add(c); //comment in case you don't want to add the whole string
 	}
