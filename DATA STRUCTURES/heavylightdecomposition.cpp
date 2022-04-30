@@ -10,9 +10,10 @@ template <class T> struct HLD {
 	SegmentTree <T>* seg;
 
 	int cp, n;
+	bool VAL_IN_EDGES;
 	T NEUTER = 0; // set neuter value
 
-	HLD (int n) : n(n) {
+	HLD (int n, bool VAL_IN_EDGES) : n(n), VAL_IN_EDGES(VAL_IN_EDGES) {
 		tree.assign(n, {});
 		par.assign(n, 0); depth.assign(n, 0);
 		in.assign(n, 0); out.assign(n, 0);
@@ -74,7 +75,7 @@ template <class T> struct HLD {
 		if (depth[u] > depth[v]) {
 			swap(u, v);
 		}
-		seg->update(in[u], in[v], x);
+		seg->update(in[u] + VAL_IN_EDGES, in[v], x);
 	}
 
 	T query_path(int u, int v) {
@@ -88,7 +89,7 @@ template <class T> struct HLD {
 		if (depth[u] > depth[v]) {
 			swap(u, v);
 		}
-		ans = calc(ans, seg->get(in[u], in[v]));
+		ans = calc(ans, seg->get(in[u] + VAL_IN_EDGES, in[v]));
 		return ans;
 	}
 };
