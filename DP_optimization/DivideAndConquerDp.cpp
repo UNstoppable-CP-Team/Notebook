@@ -1,8 +1,9 @@
 /**
  * NOTE: 
- * in order to work cost(a, c) + cost(b, d) <= cost(a, d) + cost(b, c)
- * where a <= b <= c <= d.
- * Complexity O(n * k * log(n));
+ * 1. in order to work cost(a, c) + cost(b, d) <= cost(a, d) + cost(b, c)
+ *    where a <= b <= c <= d.
+ * 2. Complexity O(n * k * log(n));
+ * 3. You can iterate over the segments like in Mo's, moving lo and hi over the segments
  **/
 template <class T> struct DivideDP {
 	vector <T> dp, dp_prev, a;
