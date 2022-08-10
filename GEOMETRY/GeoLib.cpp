@@ -21,7 +21,7 @@ T orient(pt a, pt b, pt c){// vectors A->B and A->C
 	return cross(b-a, c-a);
 }
 double angle(pt a){
-	complex<T> pnt(a.x,b.y);
+	complex<T> pnt(a.x,a.y);
 	return arg(pnt);//randians
 }
 double area(vector<pt>& p){
