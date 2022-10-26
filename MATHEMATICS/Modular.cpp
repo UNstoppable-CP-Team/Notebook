@@ -21,7 +21,7 @@ template <int MOD> struct Modular {
 	friend bool operator==(Modular const& a, Modular const& b) {return a.value == b.value;}
 	friend bool operator!=(Modular const& a, Modular const& b) {return a.value != b.value;}
 }; 
-usgin Mint = Modular<(int)1e9 + 7>;
+using Mint = Modular<(int)1e9 + 7>;
 
 vector<Mint> fact(1, 1);
 vector<Mint> inv_fact(1, 1);
