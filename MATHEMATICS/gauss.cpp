@@ -1,3 +1,7 @@
+//gaussian elimination to solve system of equations
+
+
+const long double EPS = 1e-9;
 const int INF = 1e8; // it doesn't actually have to be infinity or a big number
 
 int gauss (vector < vector<long double> > a, vector<long double> & ans) {
