@@ -1,4 +1,3 @@
-// lazy operation remains to add
 struct Node {
 	Node *left, *right;
 	int weight, size, value;
@@ -7,22 +6,21 @@ struct Node {
 		weight = rand();
 	}
 };
-int size(Node *&treap) {
+int size(Node *treap) {
 	return treap ? treap->size : 0;
 }
 void split(Node *treap, Node *&left, Node *&right, int k) {
-	if (!treap) {
-		left = right = nullptr;
-		return;
+	if (!treap) left = right = nullptr;
+	else {
+		if (size(treap->left) < k) {
+			split(treap->right, treap->right, right, k-size(treap->left)-1);
+			left = treap;
+		} else {
+			split(treap->left, left, treap->left, k);
+			right = treap;
+		}
+		treap->size = 1 + size(treap->left) + size(treap->right);
 	}
-	if (treap->value <= k) {
-		split(treap->right, treap->right, right, k);
-		left = treap;
-	} else {
-		split(treap->left, left, treap->left, k);
-		right = treap;
-	}
-	treap->size = 1 + size(treap->left) + size(treap->right);
 }
 void merge(Node *&treap, Node *left, Node *right) {
 	if (!left) treap = right;
@@ -38,15 +36,15 @@ void merge(Node *&treap, Node *left, Node *right) {
 		treap->size = 1 + size(treap->left) + size(treap->right);
 	}
 }
-void insert(Node *&treap, int k) {
-	Node *newNode = new Node(k);
-	Node *left, *right;
+void insert(Node *&treap, int k, int value) {
+	Node *newNode = new Node(value);
+	Node *left=nullptr, *right=nullptr;
 	split(treap, left, right, k - 1);
 	merge(left, left, newNode);
 	merge(treap, left, right);
 }
 void erase(Node *&treap, int k) {
-	Node *left, *right, *mid;
+	Node *left=nullptr, *right=nullptr, *mid=nullptr;
 	split(treap, left, right, k);
 	split(left, left, mid, k - 1);
 	merge(treap, left, right);
