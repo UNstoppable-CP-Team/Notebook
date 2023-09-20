@@ -36,7 +36,7 @@ double area(vector<pt>& p){
 // Polar sort --------------------------------------------------------------------
 //depends on the problem, we have to modify this implementation
 int side(pt p){
-	assert(p.x != 0 && p.y !=0);
+	assert(p.x != 0 || p.y !=0);
 	return !(p.y>0 || (p.y == 0 && p.x<0));
 }
 pt o = {0,0} // origin
