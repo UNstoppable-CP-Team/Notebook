@@ -34,13 +34,14 @@ double area(vector<pt>& p){
 	return abs(ans)/2.0;
 }
 // Polar sort --------------------------------------------------------------------
+//depends on the problem, we have to modify this implementation
 int side(pt p){
 	assert(p.x != 0 && p.y !=0);
-	retunr !(p.y>0 || (p.y == 0 && p.x<0));
+	return !(p.y>0 || (p.y == 0 && p.x<0));
 }
 pt o = {0,0} // origin
 bool comp(const pt &a, const pt &b){
-	return make_tuple(side(a-o),0) < make_tuple(side(b-o), corss(b-o, a-o));
+	return make_tuple(side(a-o),0) < make_tuple(side(b-o), cross(a-o, b-o));
 }
 //--------------------------------------------------------------------------------
 //Convex hull --------------------------------------------------------------------
