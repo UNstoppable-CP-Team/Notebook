@@ -89,3 +89,31 @@ void convex_hull(vector<pt>& a, bool include_collinear = false) {
     a = st;
 }
 //-----------------------------------------------------------------------------
+//-----------Minkowski---------------------------------------------------------
+void reorder_poly(vector<pt>& poly){
+	sort(poly.begin(),poly.end(),[&](pt a, pt b){
+			return (a.y < b.y) || (a.y == b.y && a.x < b.x);
+			});
+	o = poly.front(); //origin to use in polar sort
+	sort(poly.begin()+1,poly.end(),polar_comp);
+}
+vector<pt> minkowski(vector<pt> P, vector<pt> Q){
+	//sort by y then by x
+	//and then polar sort
+	reorder_poly(P);
+	reorder_poly(Q);
+	P.push_back(P[0]);
+	P.push_back(P[1]);
+	Q.push_back(Q[0]);
+	Q.push_back(Q[1]);
+	vector<pt> ret;
+	int i =0, j = 0;
+	while(i < int(P.size())-2 || j < int(Q.size()) - 2){
+		ret.push_back(P[i] + Q[j]);
+		long long crs = cross(P[i+1] - P[i],Q[j+1] - Q[j]);
+		if(crs >= 0 && i < P.size() - 2)i++;
+		if(crs <= 0 && j < Q.size() - 2)j++;
+	}
+	return ret;
+}
+//--------------------------------------------------------------------------------
