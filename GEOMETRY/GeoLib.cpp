@@ -1,6 +1,8 @@
 typedef double T;
 struct pt {
 	T x, y;
+	pt(T x, T y): x(x), y(y) {}
+	pt(){}
 	pt operator + (pt p) { return {x + p.x, y + p.y};}
 	pt operator - (pt p) { return {x - p.x, y - p.y};}
 	pt operator * (T d) { return {x * d, y * d};}
